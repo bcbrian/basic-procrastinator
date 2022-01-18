@@ -4,9 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Static Template</title>
+    <title>Procrastinators</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Procrastination ending soon... like today :)</h1>
+    <h1 class="header">Procrastination ending soon... like today :)</h1>
+    <label for="newTodo">Your New Todo</label>
+    <input id="newTodo" />
+    <button id="demo">Add</button>
+    <p>Select a collection:</p>
+
+    <div>
+      <input
+        type="radio"
+        id="business"
+        name="collection"
+        value="business"
+        checked
+      />
+      <label for="business">Business</label>
+    </div>
+
+    <div>
+      <input type="radio" id="personal" name="collection" value="personal" />
+      <label for="personal">Personal</label>
+    </div>
+
+    <div>
+      <input type="radio" id="other" name="collection" value="other" />
+      <label for="other">Other</label>
+    </div>
+    <section id="todosContainer">Hi</section>
+    <script src="script.js"></script>
   </body>
 </html>
