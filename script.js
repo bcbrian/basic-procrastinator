@@ -2,9 +2,9 @@
 // [X] 1a. Keep track of all todos
 // [X] 2. Create new todo
 // [ ] 6. Check box button
-// [ ] 5. Delete/edit todo button
+// [X] 5. Delete todo button
 // [X] 1b. Keep track of collections
-// [ ] 4. Keep track of timeline before auto-deleted
+// [X] 4. Keep track of timeline before auto-deleted
 // [X] 3. Render all the todos
 
 const CONSTANTS = {
@@ -15,6 +15,7 @@ const CONSTANTS = {
   },
   TIME_PERIOD: {
     FIVE_SECONDS: 1000 * 5,
+    THIRTY_SECONDS: 1000 * 30,
     TWENTY_FOUR_HOURS: 1000 * 60 * 60 * 24,
     TWO_DAYS: this.TWENTY_FOUR_HOURS * 2,
     FIVE_DAYS: this.TWENTY_FOUR_HOURS * 5
@@ -60,8 +61,22 @@ function renderTodos() {
   notDeletedTodos.forEach(function (todo) {
     const para = document.createElement("p");
     para.textContent = todo.text;
+    const deleteButton = document.createElement("button"); //<button>delete</button>
+    deleteButton.textContent = "Delete";
+    const completeTodo = document.createElement("input");
+    completeTodo.type = "checkbox";
+    completeTodo.checked = todo.isCompleted;
+    completeTodo.onclick = function completeTodo() {
+      todo.isCompleted = !todo.isCompleted;
+      renderTodos();
+    };
+    deleteButton.onclick = function deleteTodo() {
+      todo.isDeleted = true;
+      renderTodos();
+    };
+    para.prepend(completeTodo);
+    para.appendChild(deleteButton);
     sect.appendChild(para);
-    console.log(todo);
   });
 }
 renderTodos();
@@ -72,7 +87,8 @@ function deleteExpiredTodos() {
   const notCompletedTodos = todos.filter((todo) => !todo.isCompleted);
   notCompletedTodos.forEach(function (todo) {
     const elapsed = end - todo.createdTimestamp;
-    if (elapsed > CONSTANTS.TIME_PERIOD.TWO_DAYS) {
+    // if (elapsed > CONSTANTS.TIME_PERIOD.TWO_DAYS) {
+    if (elapsed > CONSTANTS.TIME_PERIOD.THIRTY_SECONDS) {
       todo.isDeleted = true;
     }
   });
