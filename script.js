@@ -44,6 +44,7 @@ const todos = [
 ];
 
 function renderTodos() {
+  console.log(todos);
   const todoContainer = document.querySelector("section#todosContainer");
   while (todoContainer.firstChild) {
     todoContainer.removeChild(todoContainer.firstChild);
@@ -65,11 +66,9 @@ function renderTodos() {
       todo.isDeleted = true;
       renderTodos();
     };
-    requestAnimationFrame(() => {
-      todoElem.prepend(completeTodo);
-      todoElem.appendChild(deleteButton);
-      todoContainer.append(todoElem);
-    });
+    todoElem.prepend(completeTodo);
+    todoElem.appendChild(deleteButton);
+    todoContainer.append(todoElem);
   });
 }
 renderTodos();
