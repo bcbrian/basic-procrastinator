@@ -1,12 +1,3 @@
-// TODO
-// [X] 1a. Keep track of all todos
-// [X] 2. Create new todo
-// [ ] 6. Check box button
-// [X] 5. Delete todo button
-// [X] 1b. Keep track of collections
-// [X] 4. Keep track of timeline before auto-deleted
-// [X] 3. Render all the todos
-
 const CONSTANTS = {
   COLLECTIONS: {
     BUSINESS: "business",
@@ -53,14 +44,14 @@ const todos = [
 ];
 
 function renderTodos() {
-  const sect = document.querySelector("section#todosContainer");
-  while (sect.firstChild) {
-    sect.removeChild(sect.firstChild);
+  const todoContainer = document.querySelector("section#todosContainer");
+  while (todoContainer.firstChild) {
+    todoContainer.removeChild(todoContainer.firstChild);
   }
   const notDeletedTodos = todos.filter((todo) => !todo.isDeleted);
   notDeletedTodos.forEach(function (todo) {
-    const para = document.createElement("p");
-    para.textContent = todo.text;
+    const todoElem = document.createElement("p");
+    todoElem.textContent = todo.text;
     const deleteButton = document.createElement("button"); //<button>delete</button>
     deleteButton.textContent = "Delete";
     const completeTodo = document.createElement("input");
@@ -74,9 +65,11 @@ function renderTodos() {
       todo.isDeleted = true;
       renderTodos();
     };
-    para.prepend(completeTodo);
-    para.appendChild(deleteButton);
-    sect.appendChild(para);
+    requestAnimationFrame(() => {
+      todoElem.prepend(completeTodo);
+      todoElem.appendChild(deleteButton);
+      todoContainer.append(todoElem);
+    });
   });
 }
 renderTodos();
@@ -87,8 +80,8 @@ function deleteExpiredTodos() {
   const notCompletedTodos = todos.filter((todo) => !todo.isCompleted);
   notCompletedTodos.forEach(function (todo) {
     const elapsed = end - todo.createdTimestamp;
-    // if (elapsed > CONSTANTS.TIME_PERIOD.TWO_DAYS) {
-    if (elapsed > CONSTANTS.TIME_PERIOD.THIRTY_SECONDS) {
+    if (elapsed > CONSTANTS.TIME_PERIOD.TWO_DAYS) {
+      // if (elapsed > CONSTANTS.TIME_PERIOD.THIRTY_SECONDS) {
       todo.isDeleted = true;
     }
   });
@@ -113,6 +106,5 @@ document.getElementById("demo").onclick = function changeContent() {
   const newTodo = createTodo({ text, collection });
   // add todo into todos;
   todos.push(newTodo);
-  console.log(todos);
   renderTodos();
 };
